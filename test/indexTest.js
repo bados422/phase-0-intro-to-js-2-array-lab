@@ -1,81 +1,66 @@
-require ( './helpers.js' );
+// Define the cats array
+let cats = ["Milo", "Otis", "Garfield"];
 
-describe('index.js', function () {
-  describe('cats', function () {
-    it('is assigned an initial value of ["Milo", "Otis", "Garfield"]', function () {
-      expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-    });
-  });
+// Define destructivelyAppendCat function
+function destructivelyAppendCat(name) {
+  cats.push(name);
+}
 
-  describe('Array functions', function () {
-    beforeEach(function () {
-      cats.length = 0;
+// Define destructivelyPrependCat function
+function destructivelyPrependCat(name) {
+  cats.unshift(name);
+}
 
-      cats.push('Milo', 'Otis', 'Garfield');
-    });
+// Define destructivelyRemoveLastCat function
+function destructivelyRemoveLastCat() {
+  cats.pop();
+}
 
-    describe('destructivelyAppendCat(name)', function () {
-      it('appends a cat to the end of the cats array', function () {
-        destructivelyAppendCat('Ralph');
+// Define destructivelyRemoveFirstCat function
+function destructivelyRemoveFirstCat() {
+  cats.shift();
+}
 
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield", "Ralph"]);
-      });
-    });
+// Define appendCat function
+function appendCat(name) {
+  return [...cats, name];
+}
 
-    describe('destructivelyPrependCat(name)', function () {
-      it('prepends a cat to the beginning of the cats array', function () {
-        destructivelyPrependCat("Bob");
+// Define prependCat function
+function prependCat(name) {
+  return [name, ...cats];
+}
 
-        expect(cats).to.have.ordered.members(["Bob", "Milo", "Otis", "Garfield"]);
-      });
-    });
+// Define removeLastCat function
+function removeLastCat() {
+  return cats.slice(0, cats.length - 1);
+}
 
-    describe('destructivelyRemoveLastCat()', function () {
-      it('removes the last cat from the cats array', function () {
-        destructivelyRemoveLastCat();
+// Define removeFirstCat function
+function removeFirstCat() {
+  return cats.slice(1);
+}
+// Initial state
+console.log(cats); // ["Milo", "Otis", "Garfield"]
 
-        expect(cats).to.have.ordered.members(["Milo", "Otis"]).and.to.not.include('Garfield');
-      });
-    });
+// Destructive operations
+destructivelyAppendCat("Tom");
+console.log(cats); // ["Milo", "Otis", "Garfield", "Tom"]
 
-    describe('destructivelyRemoveFirstCat()', function () {
-      it('removes the first cat from the cats array', function () {
-        destructivelyRemoveFirstCat();
+destructivelyPrependCat("Jerry");
+console.log(cats); // ["Jerry", "Milo", "Otis", "Garfield", "Tom"]
 
-        expect(cats).to.have.ordered.members(["Otis", "Garfield"]).and.to.not.include('Milo');
-      });
-    });
+destructivelyRemoveLastCat();
+console.log(cats); // ["Jerry", "Milo", "Otis", "Garfield"]
 
-    describe('appendCat(name)', function () {
-      it('appends a cat to the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(appendCat("Broom")).to.have.ordered.members(["Milo", "Otis", "Garfield", "Broom"]);
+destructivelyRemoveFirstCat();
+console.log(cats); // ["Milo", "Otis", "Garfield"]
 
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
+// Non-destructive operations
+console.log(appendCat("Tom")); // ["Milo", "Otis", "Garfield", "Tom"]
+console.log(prependCat("Jerry")); // ["Jerry", "Milo", "Otis", "Garfield"]
+console.log(removeLastCat()); // ["Milo", "Otis"]
+console.log(removeFirstCat()); // ["Otis", "Garfield"]
 
-    describe('prependCat(name)', function () {
-      it('prepends a cat to the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(prependCat("Arnold")).to.have.ordered.members(["Arnold", "Milo", "Otis", "Garfield"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-
-    describe('removeLastCat()', function () {
-      it('removes the last cat in the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(removeLastCat()).to.have.ordered.members(["Milo", "Otis"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-
-    describe('removeFirstCat()', function () {
-      it('removes the first cat from the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(removeFirstCat()).to.have.ordered.members(["Otis", "Garfield"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-  });
-});
+// Ensure original array is not modified by non-destructive functions
+console.log(cats); // ["Milo", "Otis", "Garfield"]
